@@ -1,0 +1,9 @@
+version: "3.9"
+services:
+  p3-news-sources:
+    build: .
+    ports:
+      - "9000:9000"
+    environment:
+      NEWSAPI_KEY: "${NEWSAPI_KEY}"
+      PLAY_SECRET: "${PLAY_SECRET:-change-me-please-1234567890}"
