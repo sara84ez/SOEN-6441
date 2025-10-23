@@ -1,0 +1,3 @@
+# P3: News Sources
+GET     /sources                controllers.NewsSourcesController.list(country: String ?= "", category: String ?= "", language: String ?= "", format: String ?= "html")
+GET     /api/sources            controllers.NewsSourcesController.api(country: String ?= "", category: String ?= "", language: String ?= "")

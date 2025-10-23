@@ -1,0 +1,82 @@
+@(sources: java.util.List[models.Source], country: String, category: String, language: String)
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>P3 – News Sources</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 2rem; }
+      .row { display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end; }
+      label { display: block; font-weight: bold; margin-bottom: 0.25rem; }
+      input, select { padding: 0.5rem; width: 14rem; }
+      button { padding: 0.6rem 1rem; cursor: pointer; }
+      table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
+      th, td { border: 1px solid #ddd; padding: 0.5rem; text-align: left; }
+      th { background: #f7f7f7; }
+      .meta { color: #555; font-size: 0.9rem; }
+      a { text-decoration: none; }
+    </style>
+  </head>
+  <body>
+    <h1>News Sources (P3)</h1>
+    <form method="get" action="/sources">
+      <div class="row">
+        <div>
+          <label for="country">Country (example: ca, us, gb)</label>
+          <input id="country" name="country" value="@country" placeholder="ca"/>
+        </div>
+        <div>
+          <label for="category">Category</label>
+          <select id="category" name="category">
+            @defining(Seq("", "business", "entertainment", "general", "health", "science", "sports", "technology")) { cats =>
+              @for(c <- cats) {
+                @if(c == category) {
+                  <option value="@c" selected>@c</option>
+                } else {
+                  <option value="@c">@c</option>
+                }
+              }
+            }
+          </select>
+        </div>
+        <div>
+          <label for="language">Language (example: en, fr, ar)</label>
+          <input id="language" name="language" value="@language" placeholder="en"/>
+        </div>
+        <div>
+          <button type="submit">Filter</button>
+        </div>
+        <div>
+          <a href="/sources?country=@country&category=@category&language=@language&format=json">View as JSON</a>
+        </div>
+      </div>
+    </form>
+
+    <p class="meta">Showing @sources.size() source(s).</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Language</th>
+          <th>Country</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(s <- sources) {
+          <tr>
+            <td><a href="@s.url" target="_blank" rel="noopener">@s.name</a></td>
+            <td>@s.category</td>
+            <td>@s.language</td>
+            <td>@s.country</td>
+            <td>@s.description</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </body>
+</html>
